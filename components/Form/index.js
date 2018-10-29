@@ -1,10 +1,5 @@
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import React, { Component } from 'react';
-import {
-  Text,
-  TextInput,
-} from 'react-native';
-import styles from './styles';
+import FormView from './FormView';
 
 class Form extends Component {
   state = {
@@ -22,44 +17,14 @@ class Form extends Component {
   render() {
     const { valueA, valueB, valueC } = this.state;
     return (
-      <KeyboardAwareScrollView style={styles.form}>
-        <Text style={styles.formText}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-          Maecenas quis tincidunt ex. Nulla vulputate nulla quam,
-          sed rutrum magna dignissim ut. Praesent eu ante at risus
-          efficitur pellentesque.
-        </Text>
-        <Text style={styles.formLabel}>A</Text>
-        <TextInput
-          onChangeText={this.handleAChangeText}
-          style={styles.formTextInput}
-          value={valueA}
-        />
-        <Text style={styles.formText}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-          Maecenas quis tincidunt ex. Nulla vulputate nulla quam,
-          sed rutrum magna dignissim ut. Praesent eu ante at risus
-          efficitur pellentesque.
-        </Text>
-        <Text style={styles.formLabel}>B</Text>
-        <TextInput
-          onChangeText={this.handleBChangeText}
-          style={styles.formTextInput}
-          value={valueB}
-        />
-        <Text style={styles.formText}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-          Maecenas quis tincidunt ex. Nulla vulputate nulla quam,
-          sed rutrum magna dignissim ut. Praesent eu ante at risus
-          efficitur pellentesque.
-        </Text>
-        <Text style={styles.formLabel}>C</Text>
-        <TextInput
-          onChangeText={this.handleCChangeText}
-          style={styles.formTextInput}
-          value={valueC}
-        />
-      </KeyboardAwareScrollView>
+      <FormView
+        onAChangeText={this.handleAChangeText}
+        onBChangeText={this.handleBChangeText}
+        onCChangeText={this.handleCChangeText}
+        valueA={valueA}
+        valueB={valueB}
+        valueC={valueC}
+      />
     );
   }
 }
