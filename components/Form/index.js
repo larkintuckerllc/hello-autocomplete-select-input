@@ -29,6 +29,7 @@ class Form extends Component {
           sed rutrum magna dignissim ut. Praesent eu ante at risus
           efficitur pellentesque.
         </Text>
+        <Text style={styles.formLabel}>A</Text>
         <TextInput
           onChangeText={this.handleAChangeText}
           style={styles.formTextInput}
@@ -40,6 +41,7 @@ class Form extends Component {
           sed rutrum magna dignissim ut. Praesent eu ante at risus
           efficitur pellentesque.
         </Text>
+        <Text style={styles.formLabel}>B</Text>
         <TextInput
           onChangeText={this.handleBChangeText}
           style={styles.formTextInput}
@@ -51,6 +53,7 @@ class Form extends Component {
           sed rutrum magna dignissim ut. Praesent eu ante at risus
           efficitur pellentesque.
         </Text>
+        <Text style={styles.formLabel}>C</Text>
         <TextInput
           onChangeText={this.handleCChangeText}
           style={styles.formTextInput}

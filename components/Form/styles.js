@@ -5,6 +5,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#99FF99',
     flex: 1,
   },
+  formLabel: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginTop: 10,
+  },
   formText: {
     fontSize: 20,
   },
