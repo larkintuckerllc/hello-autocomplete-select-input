@@ -1,3 +1,4 @@
+import { PropTypes } from 'prop-types';
 import React, { Component } from 'react';
 import FormView from './FormView';
 
@@ -14,6 +15,11 @@ class Form extends Component {
 
   handleCChangeText = text => this.setState({ valueC: text });
 
+  handleDPress = () => {
+    const { navigation: { navigate } } = this.props;
+    navigate('Autocomplete');
+  }
+
   render() {
     const { valueA, valueB, valueC } = this.state;
     return (
@@ -21,6 +27,7 @@ class Form extends Component {
         onAChangeText={this.handleAChangeText}
         onBChangeText={this.handleBChangeText}
         onCChangeText={this.handleCChangeText}
+        onDPress={this.handleDPress}
         valueA={valueA}
         valueB={valueB}
         valueC={valueC}
@@ -28,5 +35,11 @@ class Form extends Component {
     );
   }
 }
+
+Form.propTypes = {
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func.isRequired,
+  }).isRequired,
+};
 
 export default Form;

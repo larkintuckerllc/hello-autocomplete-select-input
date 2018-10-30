@@ -1,15 +1,13 @@
 /* eslint-disable */
 import React from 'react';
-import { StyleSheet, Text, SafeAreaView } from 'react-native';
-import Header from './components/Header';
-import Form from './components/Form';
+import { StyleSheet, SafeAreaView } from 'react-native';
+import RootStack from './RootStack';
 
 export default class App extends React.Component {
   render() {
     return (
       <SafeAreaView style={styles.container}>
-        <Header />
-        <Form />
+        <RootStack />
       </SafeAreaView>
     );
   }

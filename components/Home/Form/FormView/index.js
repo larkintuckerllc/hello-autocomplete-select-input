@@ -1,6 +1,6 @@
 import { PropTypes } from 'prop-types';
 import React from 'react';
-import { Text, TextInput } from 'react-native';
+import { Text, TextInput, TouchableOpacity } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import styles from './styles';
 
@@ -8,6 +8,7 @@ const FormView = ({
   onAChangeText,
   onBChangeText,
   onCChangeText,
+  onDPress,
   valueA,
   valueB,
   valueC,
@@ -49,6 +50,16 @@ const FormView = ({
       style={styles.formTextInput}
       value={valueC}
     />
+    <Text style={styles.formText}>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+      Maecenas quis tincidunt ex. Nulla vulputate nulla quam,
+      sed rutrum magna dignissim ut. Praesent eu ante at risus
+      efficitur pellentesque.
+    </Text>
+    <Text style={styles.formLabel}>D</Text>
+    <TouchableOpacity onPress={onDPress}>
+      <Text style={styles.formAutocomplete}>Sample</Text>
+    </TouchableOpacity>
   </KeyboardAwareScrollView>
 );
 
@@ -56,6 +67,7 @@ FormView.propTypes = {
   onAChangeText: PropTypes.func.isRequired,
   onBChangeText: PropTypes.func.isRequired,
   onCChangeText: PropTypes.func.isRequired,
+  onDPress: PropTypes.func.isRequired,
   valueA: PropTypes.string.isRequired,
   valueB: PropTypes.string.isRequired,
   valueC: PropTypes.string.isRequired,
