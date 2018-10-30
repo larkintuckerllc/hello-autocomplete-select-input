@@ -12,6 +12,7 @@ const FormView = ({
   valueA,
   valueB,
   valueC,
+  valueD,
 }) => (
   <KeyboardAwareScrollView style={styles.form}>
     <Text style={styles.formText}>
@@ -58,7 +59,7 @@ const FormView = ({
     </Text>
     <Text style={styles.formLabel}>D</Text>
     <TouchableOpacity onPress={onDPress}>
-      <Text style={styles.formAutocomplete}>Sample</Text>
+      <Text style={styles.formAutocomplete}>{valueD}</Text>
     </TouchableOpacity>
   </KeyboardAwareScrollView>
 );
@@ -71,6 +72,7 @@ FormView.propTypes = {
   valueA: PropTypes.string.isRequired,
   valueB: PropTypes.string.isRequired,
   valueC: PropTypes.string.isRequired,
+  valueD: PropTypes.string.isRequired,
 };
 
 export default FormView;

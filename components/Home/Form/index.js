@@ -1,5 +1,7 @@
 import { PropTypes } from 'prop-types';
 import React, { Component } from 'react';
+import { View } from 'react-native';
+import { NavigationEvents } from 'react-navigation';
 import FormView from './FormView';
 
 class Form extends Component {
@@ -7,6 +9,7 @@ class Form extends Component {
     valueA: '',
     valueB: '',
     valueC: '',
+    valueD: '',
   };
 
   handleAChangeText = text => this.setState({ valueA: text });
@@ -17,21 +20,43 @@ class Form extends Component {
 
   handleDPress = () => {
     const { navigation: { navigate } } = this.props;
-    navigate('Autocomplete');
+    const { valueD } = this.state;
+    navigate('Autocomplete', {
+      returnRoute: 'Home',
+      value: valueD,
+    });
+  }
+
+  handleDidFocus = ({ state: { params: { value } = {} } }) => {
+    if (value === undefined) return;
+    this.setState({
+      valueD: value,
+    });
   }
 
   render() {
-    const { valueA, valueB, valueC } = this.state;
+    const {
+      valueA,
+      valueB,
+      valueC,
+      valueD,
+    } = this.state;
     return (
-      <FormView
-        onAChangeText={this.handleAChangeText}
-        onBChangeText={this.handleBChangeText}
-        onCChangeText={this.handleCChangeText}
-        onDPress={this.handleDPress}
-        valueA={valueA}
-        valueB={valueB}
-        valueC={valueC}
-      />
+      <View style={{ flex: 1 }}>
+        <NavigationEvents
+          onDidFocus={this.handleDidFocus}
+        />
+        <FormView
+          onAChangeText={this.handleAChangeText}
+          onBChangeText={this.handleBChangeText}
+          onCChangeText={this.handleCChangeText}
+          onDPress={this.handleDPress}
+          valueA={valueA}
+          valueB={valueB}
+          valueC={valueC}
+          valueD={valueD}
+        />
+      </View>
     );
   }
 }
