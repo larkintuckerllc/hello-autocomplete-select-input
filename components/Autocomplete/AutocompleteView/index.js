@@ -9,6 +9,7 @@ const AutocompleteView = ({
   value,
 }) => (
   <TextInput
+    autoFocus
     onBlur={onBlur}
     onChangeText={onChangeText}
     style={styles.autocompleteTextInput}
