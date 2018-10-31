@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import AutocompleteView from './AutocompleteView';
 import debounced from '../../utils/debounced';
 
+const DEBOUNCE_MS = 500;
 class Autocomplete extends Component {
   fetchOptions = null;
 
@@ -55,7 +56,7 @@ class Autocomplete extends Component {
   }
 
   /* eslint-disable-next-line */
-  updateOptions = debounced(1000, this.updateOptionsSingular);
+  updateOptions = debounced(DEBOUNCE_MS, this.updateOptionsSingular);
 
   render() {
     const { options, value } = this.state;
