@@ -1,11 +1,22 @@
 import { PropTypes } from 'prop-types';
 import React, { Component } from 'react';
+import { Dimensions, Keyboard, View } from 'react-native';
 import AutocompleteView from './AutocompleteView';
 import debounced from '../../utils/debounced';
 
 const DEBOUNCE_MS = 500;
+const NAVIGATION_HEIGHT_LANDSCAPE = 32;
+const NAVIGATION_HEIGHT_PORTRAIT = 64;
+const STATUS_BAR_HEIGHT = 20;
+const TEXT_INPUT_HEIGHT = 80;
 class Autocomplete extends Component {
   fetchOptions = null;
+
+  keyboardDidShowSub = null;
+
+  keyboardDidHideSub = null;
+
+  keyboardHeight = 0;
 
   lastFetchOptions = null;
 
@@ -13,6 +24,7 @@ class Autocomplete extends Component {
 
   state = {
     options: [],
+    optionsListHeight: 200,
     value: '',
   }
 
@@ -26,10 +38,14 @@ class Autocomplete extends Component {
       value,
     });
     this.updateOptions(value);
+    this.keyboardDidHideSub = Keyboard.addListener('keyboardDidHide', this.handleKeyboardDidHide);
+    this.keyboardDidShowSub = Keyboard.addListener('keyboardDidShow', this.handleKeyboardDidShow);
   }
 
   componentWillUnmount() {
     this.mounted = false;
+    this.keyboardDidHideSub.remove();
+    this.keyboardDidShowSub.remove();
   }
 
   handleBlur = () => {
@@ -45,6 +61,20 @@ class Autocomplete extends Component {
     this.updateOptions(value);
   };
 
+  handleKeyboardDidHide = () => {
+    this.keyboardHeight = 0;
+    this.updateOptionsListHeight();
+  }
+
+  handleKeyboardDidShow = ({ endCoordinates: { height } }) => {
+    this.keyboardHeight = height;
+    this.updateOptionsListHeight();
+  }
+
+  handleLayout = () => {
+    this.updateOptionsListHeight();
+  };
+
   updateOptionsSingular = async (value) => {
     const thisFetchOptions = this.fetchOptions(value); // WEIRD - NOT ABLE TO DIRECTLY SET
     this.lastFetchOptions = thisFetchOptions;
@@ -58,15 +88,36 @@ class Autocomplete extends Component {
   /* eslint-disable-next-line */
   updateOptions = debounced(DEBOUNCE_MS, this.updateOptionsSingular);
 
+  updateOptionsListHeight = () => {
+    const { height: windowHeight, width: windowWidth } = Dimensions.get('window');
+    const portrait = windowHeight > windowWidth;
+    const optionsListHeight = portrait
+      ? windowHeight
+        - this.keyboardHeight
+        - STATUS_BAR_HEIGHT
+        - NAVIGATION_HEIGHT_PORTRAIT
+        - TEXT_INPUT_HEIGHT
+      : windowHeight
+        - this.keyboardHeight
+        - NAVIGATION_HEIGHT_LANDSCAPE
+        - TEXT_INPUT_HEIGHT;
+    this.setState({ optionsListHeight });
+  }
+
   render() {
-    const { options, value } = this.state;
+    const { options, optionsListHeight, value } = this.state;
     return (
-      <AutocompleteView
-        onBlur={this.handleBlur}
-        onChangeText={this.handleChangeText}
-        options={options}
-        value={value}
-      />
+      <View
+        onLayout={this.handleLayout}
+      >
+        <AutocompleteView
+          onBlur={this.handleBlur}
+          onChangeText={this.handleChangeText}
+          options={options}
+          optionsListHeight={optionsListHeight}
+          value={value}
+        />
+      </View>
     );
   }
 }

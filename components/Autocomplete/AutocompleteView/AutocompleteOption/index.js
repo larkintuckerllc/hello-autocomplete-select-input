@@ -1,11 +1,17 @@
 import { PropTypes } from 'prop-types';
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { Text } from 'react-native';
 import styles from './styles';
 
-const AutocompleteOption = ({ option }) => (
-  <Text style={styles.autocompleteOptionText}>{option.key}</Text>
-);
+/* eslint-disable-next-line */
+class AutocompleteOption extends PureComponent {
+  render() {
+    const { option: { key } } = this.props;
+    return (
+      <Text style={styles.autocompleteOptionText}>{key}</Text>
+    );
+  }
+}
 
 AutocompleteOption.propTypes = {
   option: PropTypes.shape({

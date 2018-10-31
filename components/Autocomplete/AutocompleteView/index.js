@@ -8,6 +8,7 @@ const AutocompleteView = ({
   onBlur,
   onChangeText,
   options,
+  optionsListHeight,
   value,
 }) => (
   <View style={{ flex: 1 }}>
@@ -18,11 +19,13 @@ const AutocompleteView = ({
       style={styles.autocompleteTextInput}
       value={value}
     />
-    <FlatList
-      data={options}
-      renderItem={({ item }) => <AutocompleteOption option={item} />}
-      style={{ flex: 1 }}
-    />
+    <View style={{ height: optionsListHeight }}>
+      <FlatList
+        data={options}
+        renderItem={({ item }) => <AutocompleteOption option={item} />}
+        style={{ flex: 1 }}
+      />
+    </View>
   </View>
 );
 
@@ -32,6 +35,7 @@ AutocompleteView.propTypes = {
   options: PropTypes.arrayOf(PropTypes.shape({
     key: PropTypes.string.isRequired,
   })).isRequired,
+  optionsListHeight: PropTypes.number.isRequired,
   value: PropTypes.string.isRequired,
 };
 
