@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { View } from 'react-native';
 import { NavigationEvents } from 'react-navigation';
 import FormView from './FormView';
+import fetchStates from '../../../apis/states';
 
 class Form extends Component {
   state = {
@@ -22,6 +23,7 @@ class Form extends Component {
     const { navigation: { navigate } } = this.props;
     const { valueD } = this.state;
     navigate('Autocomplete', {
+      fetchOptions: fetchStates,
       returnRoute: 'Home',
       value: valueD,
     });
