@@ -1,6 +1,7 @@
 import { PropTypes } from 'prop-types';
 import React, { Component } from 'react';
 import { Dimensions, Keyboard, View } from 'react-native';
+import { NavigationEvents } from 'react-navigation';
 import AutocompleteView from './AutocompleteView';
 import debounced from '../../utils/debounced';
 
@@ -21,6 +22,8 @@ class Autocomplete extends Component {
   lastFetchOptions = null;
 
   mounted = true;
+
+  navigating = false;
 
   state = {
     options: [],
@@ -48,18 +51,22 @@ class Autocomplete extends Component {
     this.keyboardDidShowSub.remove();
   }
 
-  handleBlur = () => {
-    const { navigation: { getParam, navigate } } = this.props;
-    const returnRoute = getParam('returnRoute', null);
-    if (returnRoute === null) throw new Error('Autocomplete navigate must have returnRoute');
-    const { value } = this.state;
-    navigate(returnRoute, { value });
-  }
-
   handleChangeText = (value) => {
     this.setState({ value });
     this.updateOptions(value);
   };
+
+  handleInputBlur = () => {
+    if (this.navigating) return;
+    const { value } = this.state;
+    const { options } = this.state;
+    const optionStrings = options.map(option => option.key);
+    const checkValue = optionStrings.length === 1
+      ? optionStrings[0]
+      : value;
+    if (!optionStrings.includes(checkValue)) return;
+    this.returnWithValue(checkValue);
+  }
 
   handleKeyboardDidHide = () => {
     this.keyboardHeight = 0;
@@ -73,6 +80,21 @@ class Autocomplete extends Component {
 
   handleLayout = () => {
     this.updateOptionsListHeight();
+  };
+
+  handleOptionPress = (value) => {
+    this.returnWithValue(value);
+  }
+
+  handleWillBlur = () => {
+    this.navigating = true;
+  }
+
+  returnWithValue = (value) => {
+    const { navigation: { getParam, navigate } } = this.props;
+    const returnRoute = getParam('returnRoute', null);
+    if (returnRoute === null) throw new Error('Autocomplete navigate must have returnRoute');
+    navigate(returnRoute, { value });
   };
 
   updateOptionsSingular = async (value) => {
@@ -110,9 +132,13 @@ class Autocomplete extends Component {
       <View
         onLayout={this.handleLayout}
       >
+        <NavigationEvents
+          onWillBlur={this.handleWillBlur}
+        />
         <AutocompleteView
-          onBlur={this.handleBlur}
+          onBlur={this.handleInputBlur}
           onChangeText={this.handleChangeText}
+          onOptionPress={this.handleOptionPress}
           options={options}
           optionsListHeight={optionsListHeight}
           value={value}

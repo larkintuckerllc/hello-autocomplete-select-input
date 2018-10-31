@@ -7,6 +7,7 @@ import styles from './styles';
 const AutocompleteView = ({
   onBlur,
   onChangeText,
+  onOptionPress,
   options,
   optionsListHeight,
   value,
@@ -22,7 +23,13 @@ const AutocompleteView = ({
     <View style={{ height: optionsListHeight }}>
       <FlatList
         data={options}
-        renderItem={({ item }) => <AutocompleteOption option={item} />}
+        keyboardShouldPersistTaps="always"
+        renderItem={({ item }) => (
+          <AutocompleteOption
+            onOptionPress={onOptionPress}
+            option={item}
+          />
+        )}
         style={{ flex: 1 }}
       />
     </View>
@@ -32,6 +39,7 @@ const AutocompleteView = ({
 AutocompleteView.propTypes = {
   onBlur: PropTypes.func.isRequired,
   onChangeText: PropTypes.func.isRequired,
+  onOptionPress: PropTypes.func.isRequired,
   options: PropTypes.arrayOf(PropTypes.shape({
     key: PropTypes.string.isRequired,
   })).isRequired,
