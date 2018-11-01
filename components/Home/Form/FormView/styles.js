@@ -8,6 +8,7 @@ const styles = StyleSheet.create({
   formAutocomplete: {
     backgroundColor: 'white',
     fontSize: 20,
+    height: 45,
     marginBottom: 10,
     marginTop: 10,
     padding: 10,
