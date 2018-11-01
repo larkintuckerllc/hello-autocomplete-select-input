@@ -1,24 +1,16 @@
-/* eslint-disable */
 import React from 'react';
-import { Platform, StatusBar, StyleSheet, SafeAreaView } from 'react-native';
+import { Platform, StatusBar, SafeAreaView } from 'react-native';
 import RootStack from './RootStack';
+import styles from './styles';
 
-export default class App extends React.Component {
-  render() {
-    const androidStyle = Platform.OS === 'android'
-      ? { paddingTop: StatusBar.currentHeight }
-      : {};
-    return (
-      <SafeAreaView style={[styles.container, androidStyle]}>
-        <RootStack />
-      </SafeAreaView>
-    );
-  }
-}
+const androidStyle = Platform.OS === 'android'
+  ? { paddingTop: StatusBar.currentHeight }
+  : {};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#ffffaa',
-  },
-});
+const App = () => (
+  <SafeAreaView style={[styles.app, androidStyle]}>
+    <RootStack />
+  </SafeAreaView>
+);
+
+export default App;

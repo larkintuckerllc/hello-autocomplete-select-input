@@ -1,40 +1,45 @@
 import { PropTypes } from 'prop-types';
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { FlatList, TextInput, View } from 'react-native';
 import AutocompleteOption from './AutocompleteOption';
 import styles from './styles';
 
-const AutocompleteView = ({
-  onBlur,
-  onChangeText,
-  onOptionPress,
-  options,
-  optionsListHeight,
-  value,
-}) => (
-  <View style={{ flex: 1 }}>
-    <TextInput
-      autoFocus
-      onBlur={onBlur}
-      onChangeText={onChangeText}
-      style={styles.autocompleteTextInput}
-      value={value}
-    />
-    <View style={{ height: optionsListHeight }}>
-      <FlatList
-        data={options}
-        keyboardShouldPersistTaps="always"
-        renderItem={({ item }) => (
-          <AutocompleteOption
-            onOptionPress={onOptionPress}
-            option={item}
+class AutocompleteView extends PureComponent {
+  render() {
+    const {
+      onBlur,
+      onChangeText,
+      onOptionPress,
+      options,
+      optionsListHeight,
+      value,
+    } = this.props;
+    return (
+      <View style={{ flex: 1 }}>
+        <TextInput
+          autoFocus
+          onBlur={onBlur}
+          onChangeText={onChangeText}
+          style={styles.autocompleteTextInput}
+          value={value}
+        />
+        <View style={{ height: optionsListHeight }}>
+          <FlatList
+            data={options}
+            keyboardShouldPersistTaps="always"
+            renderItem={({ item }) => (
+              <AutocompleteOption
+                onOptionPress={onOptionPress}
+                option={item}
+              />
+            )}
+            style={{ flex: 1 }}
           />
-        )}
-        style={{ flex: 1 }}
-      />
-    </View>
-  </View>
-);
+        </View>
+      </View>
+    );
+  }
+}
 
 AutocompleteView.propTypes = {
   onBlur: PropTypes.func.isRequired,

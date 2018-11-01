@@ -1,5 +1,5 @@
 import { PropTypes } from 'prop-types';
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import {
   Dimensions,
   Keyboard,
@@ -17,7 +17,7 @@ const IOS_NAVIGATION_HEIGHT_PORTRAIT = 64;
 const ANDROID_NAVIGATION_HEIGHT = 81;
 const IOS_STATUS_BAR_HEIGHT = 20;
 const TEXT_INPUT_HEIGHT = 80;
-class Autocomplete extends Component {
+class Autocomplete extends PureComponent {
   fetchOptions = null;
 
   keyboardDidShowSub = null;

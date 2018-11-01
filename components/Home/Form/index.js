@@ -1,11 +1,11 @@
 import { PropTypes } from 'prop-types';
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 import { NavigationEvents } from 'react-navigation';
 import FormView from './FormView';
 import fetchStates from '../../../apis/states';
 
-class Form extends Component {
+class Form extends PureComponent {
   state = {
     valueA: '',
     valueB: '',

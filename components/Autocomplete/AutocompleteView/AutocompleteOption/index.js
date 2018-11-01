@@ -3,10 +3,7 @@ import React, { PureComponent } from 'react';
 import { Text, TouchableOpacity } from 'react-native';
 import styles from './styles';
 
-
-/* eslint-disable-next-line */
 class AutocompleteOption extends PureComponent {
-
   handlePress = () => {
     const { onOptionPress, option: { key } } = this.props;
     onOptionPress(key);
