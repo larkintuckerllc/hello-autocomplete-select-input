@@ -64,7 +64,8 @@ class Autocomplete extends Component {
     const { options } = this.state;
     if (options.length !== 1) return;
     if (value !== this.lastFetchOptionsValue) return;
-    this.returnWithValue(value);
+    const completedValue = options[0].key;
+    this.returnWithValue(completedValue);
   }
 
   handleKeyboardDidHide = () => {
