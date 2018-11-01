@@ -1,14 +1,21 @@
 import { PropTypes } from 'prop-types';
 import React, { Component } from 'react';
-import { Dimensions, Keyboard, View } from 'react-native';
+import {
+  Dimensions,
+  Keyboard,
+  Platform,
+  StatusBar,
+  View,
+} from 'react-native';
 import { NavigationEvents } from 'react-navigation';
 import AutocompleteView from './AutocompleteView';
 import debounced from '../../utils/debounced';
 
 const DEBOUNCE_MS = 500;
 const NAVIGATION_HEIGHT_LANDSCAPE = 32;
-const NAVIGATION_HEIGHT_PORTRAIT = 64;
-const STATUS_BAR_HEIGHT = 20;
+const IOS_NAVIGATION_HEIGHT_PORTRAIT = 64;
+const ANDROID_NAVIGATION_HEIGHT = 81;
+const IOS_STATUS_BAR_HEIGHT = 20;
 const TEXT_INPUT_HEIGHT = 80;
 class Autocomplete extends Component {
   fetchOptions = null;
@@ -114,16 +121,30 @@ class Autocomplete extends Component {
   updateOptionsListHeight = () => {
     const { height: windowHeight, width: windowWidth } = Dimensions.get('window');
     const portrait = windowHeight > windowWidth;
-    const optionsListHeight = portrait
-      ? windowHeight
-        - this.keyboardHeight
-        - STATUS_BAR_HEIGHT
-        - NAVIGATION_HEIGHT_PORTRAIT
-        - TEXT_INPUT_HEIGHT
-      : windowHeight
-        - this.keyboardHeight
-        - NAVIGATION_HEIGHT_LANDSCAPE
-        - TEXT_INPUT_HEIGHT;
+    const androidStatusBarHeight = StatusBar.currentHeight;
+    let optionsListHeight;
+    switch (Platform.OS) {
+      case 'ios':
+        optionsListHeight = portrait
+          ? windowHeight
+            - this.keyboardHeight
+            - IOS_STATUS_BAR_HEIGHT
+            - IOS_NAVIGATION_HEIGHT_PORTRAIT
+            - TEXT_INPUT_HEIGHT
+          : windowHeight
+            - this.keyboardHeight
+            - NAVIGATION_HEIGHT_LANDSCAPE
+            - TEXT_INPUT_HEIGHT;
+        break;
+      case 'android':
+        optionsListHeight = windowHeight
+          - this.keyboardHeight
+          - androidStatusBarHeight
+          - ANDROID_NAVIGATION_HEIGHT
+          - TEXT_INPUT_HEIGHT;
+        break;
+      default:
+    }
     this.setState({ optionsListHeight });
   }
 
@@ -132,6 +153,7 @@ class Autocomplete extends Component {
     return (
       <View
         onLayout={this.handleLayout}
+        style={{ flex: 1 }}
       >
         <NavigationEvents
           onWillBlur={this.handleWillBlur}
