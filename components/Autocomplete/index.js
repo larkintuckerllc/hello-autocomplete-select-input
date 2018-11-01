@@ -21,6 +21,8 @@ class Autocomplete extends Component {
 
   lastFetchOptions = null;
 
+  lastFetchOptionsValue = null;
+
   mounted = true;
 
   navigating = false;
@@ -60,12 +62,9 @@ class Autocomplete extends Component {
     if (this.navigating) return;
     const { value } = this.state;
     const { options } = this.state;
-    const optionStrings = options.map(option => option.key);
-    const checkValue = optionStrings.length === 1
-      ? optionStrings[0]
-      : value;
-    if (!optionStrings.includes(checkValue)) return;
-    this.returnWithValue(checkValue);
+    if (options.length !== 1) return;
+    if (value !== this.lastFetchOptionsValue) return;
+    this.returnWithValue(value);
   }
 
   handleKeyboardDidHide = () => {
@@ -105,6 +104,7 @@ class Autocomplete extends Component {
     if (thisFetchOptions !== this.lastFetchOptions) return;
     const options = optionsList.map(option => ({ key: option }));
     this.setState({ options });
+    this.lastFetchOptionsValue = value;
   }
 
   /* eslint-disable-next-line */
